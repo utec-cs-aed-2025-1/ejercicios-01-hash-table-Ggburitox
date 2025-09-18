@@ -34,7 +34,22 @@ vector<string> tokenize(const string& text) {
 // TODO: Implementar el algoritmo Bag of Words
 ChainHash<string, vector<int>> bagOfWords(const vector<string>& documentos) {
     ChainHash<string, vector<int>> result(13);     
-    // TODO: Implementar algoritmo aquí    
+
+    for(size_t i = 0; i < documentos.size(); i++){
+        vector<string> words = tokenize(documentos[i]);
+        for(string w : words){
+            if(result.contains(w)){
+                auto docs = result.get(w);
+                if(find(docs.begin(), docs.end(), i) == docs.end()){
+                    docs.push_back(i);
+                    result.set(w, docs);
+                }
+            } else {
+                result.set(w, { (int)i });
+            }
+        }
+    }
+
     return result;
 }
 
